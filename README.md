@@ -16,8 +16,7 @@ and Amazon Web Services Keys (that you will need in order to access your queues 
 For more detailed information, please, refer to this project's Wiki (W.I.P)
 
 # Exporting the Database
-As people kept requesting me, i decided to export the database on it's current state.
-Email me if you need it.
+As people kept requesting me, i decided to export the database on it's current state, which you can find on this link (containing the records as JSON): https://s3.amazonaws.com/GooglePlayStore/Apple%20Store%20JSON.zip
 
 Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS when one queries the database
 So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the value is up to you).

@@ -45,7 +45,7 @@ namespace SharedLibrary
         public const string DATE_FORMAT          = "MMM dd, yyyy";
 
         // MongoDB - Remote Server
-        public static readonly string MONGO_SERVER           = "ec2-54-88-152-45.compute-1.amazonaws.com"; 
+        public static readonly string MONGO_SERVER           = "54.173.8.86"; 
         public static readonly string MONGO_PORT             = "21766";
         public static readonly string MONGO_USER             = "GitHubAppleCrawler";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";

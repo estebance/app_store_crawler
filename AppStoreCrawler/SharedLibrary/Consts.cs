@@ -47,10 +47,10 @@ namespace SharedLibrary
         // MongoDB - Remote Server
         public static readonly string MONGO_SERVER           = "mobiledata.bigdatacorp.com.br"; 
         public static readonly string MONGO_PORT             = "21766";
-        public static readonly string MONGO_USER             = "GitHubAppleCrawler";
+        public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
-        public static readonly string MONGO_DATABASE         = "AppleStore";
-        public static readonly string MONGO_COLLECTION       = "AppleStoreApps";
+        public static readonly string MONGO_DATABASE         = "MobileAppsData";
+        public static readonly string MONGO_COLLECTION       = "AppleStore_2014_12";
         public static readonly string MONGO_AUTH_DB          = "AppleStore";
         public static readonly int    MONGO_TIMEOUT          = 10000;
     }

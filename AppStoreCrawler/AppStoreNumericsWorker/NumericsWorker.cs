@@ -1,10 +1,12 @@
-﻿using SharedLibrary;
+﻿using NLog;
+using SharedLibrary;
 using SharedLibrary.AWS;
 using SharedLibrary.ConfigurationReader;
-using SharedLibrary.Logging;
 using SharedLibrary.Parsing;
+using SharedLibrary.Proxies;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,7 +18,7 @@ namespace AppStoreNumericsWorker
     class NumericsWorker
     {
         // Logging Tool
-        private static LogWrapper _logger;
+        private static Logger _logger;
 
         // Configuration Values
         private static string _numericUrlsQueueName;
@@ -34,14 +36,48 @@ namespace AppStoreNumericsWorker
             // Creating Needed Instances
             RequestsHandler httpClient = new RequestsHandler ();
             AppStoreParser  parser     = new AppStoreParser ();
-            _logger                    = new LogWrapper ();
+            _logger                    = LogManager.GetCurrentClassLogger ();
 
             // Loading Configuration
-            _logger.LogMessage ("Loading Configurations from App.config");
+            _logger.Info ("Loading Configurations from App.config");
             LoadConfiguration ();
 
+            // Control Variable (Bool - Should the process use proxies? )
+            bool shouldUseProxies = false;
+
+            // Checking for the need to use proxies
+            if (args != null && args.Length == 1)
+            {
+                // Setting flag to true
+                shouldUseProxies = true;
+
+                // Loading proxies from .txt received as argument
+                String fPath = args[0];
+
+                // Sanity Check
+                if (!File.Exists (fPath))
+                {
+                    _logger.Fatal ("Couldnt find proxies on path : " + fPath);
+                    System.Environment.Exit (-100);
+                }
+
+                // Reading Proxies from File
+                string[] fLines = File.ReadAllLines (fPath, Encoding.GetEncoding ("UTF-8"));
+
+                try
+                {
+                    // Actual Load of Proxies
+                    ProxiesLoader.Load (fLines.ToList ());
+                }
+                catch (Exception ex)
+                {
+                    _logger.Fatal (ex);
+                    System.Environment.Exit (-101);
+                }
+            }
+
             // AWS Queue Handler
-            _logger.LogMessage ("Initializing Queues");
+            _logger.Info ("Initializing Queues");
             AWSSQSHelper numericUrlQueue   = new AWSSQSHelper (_numericUrlsQueueName , _maxMessagesPerDequeue, _awsKey, _awsKeySecret);
             AWSSQSHelper appsUrlQueue      = new AWSSQSHelper (_appUrlsQueueName     , _maxMessagesPerDequeue, _awsKey, _awsKeySecret);
 
@@ -51,7 +87,7 @@ namespace AppStoreNumericsWorker
             // Initialiazing Control Variables
             int fallbackWaitTime = 1;
 
-            _logger.LogMessage ("Started Processing Numeric Urls");
+            _logger.Info ("Started Processing Numeric Urls");
 
             do
             {
@@ -104,11 +140,11 @@ namespace AppStoreNumericsWorker
                             do
                             {
                                 // Executing Http Request for the Category Url
-                                htmlResponse = httpClient.Get (numericUrl.Body);
+                                htmlResponse = httpClient.Get (numericUrl.Body, shouldUseProxies);
 
                                 if (String.IsNullOrEmpty (htmlResponse))
                                 {
-                                    _logger.LogMessage ("Retrying Request for Category Page", "Request Error", BDC.BDCCommons.TLogEventLevel.Error);
+                                    _logger.Info ("Retrying Request for Category Page");
                                     retries++;
                                 }
 
@@ -123,7 +159,7 @@ namespace AppStoreNumericsWorker
                             }
 
                             // Feedback
-                            _logger.LogMessage ("Current page " + numericUrl.Body, "Extracting App Urls");
+                            _logger.Info ("Current page " + numericUrl.Body);
 
                             foreach (var parsedAppUrl in parser.ParseAppsUrls (htmlResponse))
                             {
@@ -133,7 +169,7 @@ namespace AppStoreNumericsWorker
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogMessage (ex.Message, "Numeric Url Processing", BDC.BDCCommons.TLogEventLevel.Error);
+                            _logger.Info (ex);
                         }
                         finally
                         {
@@ -144,7 +180,7 @@ namespace AppStoreNumericsWorker
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogMessage (ex);
+                    _logger.Error (ex);
                 }
 
 

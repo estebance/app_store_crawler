@@ -1,7 +1,7 @@
-﻿using SharedLibrary;
+﻿using NLog;
+using SharedLibrary;
 using SharedLibrary.AWS;
 using SharedLibrary.ConfigurationReader;
-using SharedLibrary.Logging;
 using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
 using System;
@@ -16,7 +16,7 @@ namespace AppStoreRecorder
     class Recorder
     {
         // Logging Tool
-        private static LogWrapper _logger;
+        private static Logger _logger;
 
         // Configuration Values
         private static string _appsDataQueueName;
@@ -31,18 +31,18 @@ namespace AppStoreRecorder
         static void Main (string[] args)
         {
             // Creating needed Instances
-            _logger = new LogWrapper ();
+            _logger = LogManager.GetCurrentClassLogger ();
 
             // Loading Configuration
-            _logger.LogMessage ("Loading Configurations from App.config");
+            _logger.Info ("Loading Configurations from App.config");
             LoadConfiguration ();
 
             // Initializing Queue
-            _logger.LogMessage ("Initializing Queue");
+            _logger.Info ("Initializing Queue");
             AWSSQSHelper appsDataQueue = new AWSSQSHelper (_appsDataQueueName, _maxMessagesPerDequeue, _awsKey, _awsKeySecret);
 
             // Creating MongoDB Instance
-            _logger.LogMessage ("Loading MongoDB / Creating Instances");
+            _logger.Info ("Loading MongoDB / Creating Instances");
 
             MongoDBWrapper mongoDB = new MongoDBWrapper ();
             string serverAddr = String.Join (":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
@@ -54,7 +54,7 @@ namespace AppStoreRecorder
             // Initialiazing Control Variables
             int fallbackWaitTime = 1;
 
-            _logger.LogMessage ("Started Processing App Urls");
+            _logger.Info ("Started Processing App Urls");
 
             do
             {
@@ -111,7 +111,7 @@ namespace AppStoreRecorder
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogMessage (ex.Message, "App Recording", BDC.BDCCommons.TLogEventLevel.Error);
+                            _logger.Error (ex);
                         }
                         finally
                         {
@@ -122,7 +122,7 @@ namespace AppStoreRecorder
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogMessage (ex);
+                    _logger.Error (ex);
                 }
 
             } while (true);

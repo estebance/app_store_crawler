@@ -128,7 +128,7 @@ namespace SharedLibrary.Parsing
             parsedApp.isFree            = parsedApp.price == 0.0 ? true : false;
             parsedApp.category          = GetAppCategory (map);
             parsedApp.updateDate        = GetAppUpdateDate (map);
-            //parsedApp.description     = GetAppDescription (map); //TODO: Figure out how to get description on a separated request
+            parsedApp.description       = GetAppDescription (map);
             parsedApp.version           = GetAppVersion (map);
             parsedApp.size              = GetAppSize (map);
             parsedApp.thumbnailUrl      = GetThumbnailUrl (map);
@@ -155,7 +155,7 @@ namespace SharedLibrary.Parsing
             HtmlNode devUrlNode = map.DocumentNode.SelectSingleNode (Consts.XPATH_DEVELOPER_URL);
 
             // Returning Url
-            return devUrlNode.Attributes["href"].Value;
+            return devUrlNode == null ? "No Developer Url Available" : devUrlNode.Attributes["href"].Value;
         }
 
         private double GetAppPrice (HtmlDocument map)
@@ -369,8 +369,17 @@ namespace SharedLibrary.Parsing
                 // Parsing In App Purchase Price
                 string inAppPurchasePrice = purchaseListNode.SelectSingleNode ("./span[@class='in-app-price']").InnerText.Trim ().Replace ('.',',');
 
+                double inAppPrice;
+
                 // Converting String price to double
-                double inAppPrice = Convert.ToDouble (inAppPurchasePrice.Replace (cInfo.NumberFormat.CurrencySymbol, String.Empty));
+                if (inAppPurchasePrice.IndexOf ("free", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
+                    inAppPrice = 0.0;
+                }
+                else
+                {
+                    inAppPrice = Convert.ToDouble (inAppPurchasePrice.Replace (cInfo.NumberFormat.CurrencySymbol, String.Empty));
+                }
 
                 // Creating Object
                 inAppPurchases.Add (new InAppPurchase ()

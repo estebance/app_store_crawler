@@ -12,6 +12,7 @@ using System.Web;
 using SharedLibrary.ConfigurationReader;
 using NLog;
 using SharedLibrary.Proxies;
+using SharedLibrary.Log;
 
 namespace AppStoreCrawler
 {
@@ -30,7 +31,10 @@ namespace AppStoreCrawler
             // Creating Needed Instances
             RequestsHandler httpClient = new RequestsHandler ();
             AppStoreParser  parser     = new AppStoreParser ();
-            _logger                    = LogManager.GetCurrentClassLogger ();
+
+            // Setting Up Log
+            LogSetup.InitializeLog ("Apple_Store_Crawler.log", "info");
+            _logger = LogManager.GetCurrentClassLogger ();
             
             // Starting Flow
             _logger.Info ("Worker Started");

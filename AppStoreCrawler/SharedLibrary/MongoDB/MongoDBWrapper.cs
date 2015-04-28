@@ -57,6 +57,24 @@ namespace SharedLibrary.MongoDB
             return _database.GetCollection<T> (collection).SafeInsert (record);
         }
 
+        public void BatchInsert<T> (IEnumerable<T> records, string collection = "")
+        {
+            collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
+
+            try
+            {
+                _database.GetCollection<T> (collection).InsertBatch<T> (records);
+            }
+            catch (Exception ex)
+            {
+                // Retrying individually - Using "Save" instead of "Insert"
+                foreach (var record in records)
+                {
+                    _database.GetCollection<T> (collection).SafeSave (record);
+                }
+            }
+        }
+
         public bool IsAppOnDatabase<T> (string url)
         {
             var mongoQuery = Query.EQ ("url", url);

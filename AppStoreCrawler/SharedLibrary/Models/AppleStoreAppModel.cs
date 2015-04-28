@@ -11,15 +11,14 @@ namespace SharedLibrary.Models
 {
     public class AppleStoreAppModel
     {
-        [BsonIgnore]
-        public String   id                       { get; set; }
+        public String   _id                      { get; set; }
         public string   url                      { get; set; }
         public string   name                     { get; set; }
         public string   developerName            { get; set; }
         public string   developerUrl             { get; set; }
         public double   price                    { get; set; }
         public bool     isFree                   { get; set; }
-        [BsonIgnore]
+        [BsonIgnoreIfNull]
         public string   description              { get; set; }
         public string   thumbnailUrl             { get; set; }
         public string   compatibility            { get; set; }
@@ -31,6 +30,7 @@ namespace SharedLibrary.Models
         public int      minimumAge               { get; set; }
         public string[] ageRatingReasons         { get; set; }
         public Rating   rating                   { get; set; }
+        [BsonIgnoreIfNull]
         public InAppPurchase[] topInAppPurchases { get; set; }
 
         public string ToJson ()

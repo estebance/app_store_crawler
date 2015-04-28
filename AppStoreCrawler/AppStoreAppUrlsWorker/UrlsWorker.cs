@@ -2,6 +2,7 @@
 using SharedLibrary;
 using SharedLibrary.AWS;
 using SharedLibrary.ConfigurationReader;
+using SharedLibrary.Log;
 using SharedLibrary.Models;
 using SharedLibrary.Parsing;
 using SharedLibrary.Proxies;
@@ -37,9 +38,12 @@ namespace AppStoreAppUrlsWorker
             // Creating Needed Instances
             RequestsHandler httpClient = new RequestsHandler ();
             AppStoreParser  parser     = new AppStoreParser ();
-            _logger                    = LogManager.GetCurrentClassLogger ();
 
             // Loading Configuration
+            LogSetup.InitializeLog ("Apple_Store_Urls_Worker.log", "info");
+            _logger = LogManager.GetCurrentClassLogger ();
+
+            // Loading Config
             _logger.Info ("Loading Configurations from App.config");
             LoadConfiguration ();
 
@@ -131,6 +135,8 @@ namespace AppStoreAppUrlsWorker
                     // Iterating over dequeued Messages
                     foreach (var appUrl in appsUrlQueue.GetDequeuedMessages ())
                     {
+                        bool processingWorked = true;
+
                         try
                         {
                             // Retries Counter
@@ -163,8 +169,6 @@ namespace AppStoreAppUrlsWorker
                             // Checking if retries failed
                             if (String.IsNullOrWhiteSpace (htmlResponse))
                             {
-                                // Deletes Message and moves on
-                                //appsUrlQueue.DeleteMessage (appUrl);
                                 continue;
                             }
 
@@ -185,11 +189,17 @@ namespace AppStoreAppUrlsWorker
                         catch (Exception ex)
                         {
                             _logger.Error (ex);
+
+                            // Setting Flag to "False"
+                            processingWorked = false;
                         }
                         finally
                         {
-                             //Deleting the message
-                            appsUrlQueue.DeleteMessage (appUrl);
+                             //Deleting the message - Only if the processing worked
+                            if (processingWorked)
+                            {
+                                appsUrlQueue.DeleteMessage (appUrl);
+                            }
                         }
                     }
                 }

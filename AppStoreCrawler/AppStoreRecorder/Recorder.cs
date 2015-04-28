@@ -1,7 +1,9 @@
-﻿using NLog;
+﻿using Amazon.SQS.Model;
+using NLog;
 using SharedLibrary;
 using SharedLibrary.AWS;
 using SharedLibrary.ConfigurationReader;
+using SharedLibrary.Log;
 using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
 using System;
@@ -30,10 +32,11 @@ namespace AppStoreRecorder
 
         static void Main (string[] args)
         {
-            // Creating needed Instances
+            // Loading Configuration
+            LogSetup.InitializeLog ("Apple_Store_Recorder.log", "info");
             _logger = LogManager.GetCurrentClassLogger ();
 
-            // Loading Configuration
+            // Loading Config
             _logger.Info ("Loading Configurations from App.config");
             LoadConfiguration ();
 
@@ -45,7 +48,7 @@ namespace AppStoreRecorder
             _logger.Info ("Loading MongoDB / Creating Instances");
 
             MongoDBWrapper mongoDB = new MongoDBWrapper ();
-            string serverAddr = String.Join (":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
+            string serverAddr      = String.Join (":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
             mongoDB.ConfigureDatabase (Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, serverAddr, 10000, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
 
             // Setting Error Flag to No Error ( 0 )
@@ -54,7 +57,14 @@ namespace AppStoreRecorder
             // Initialiazing Control Variables
             int fallbackWaitTime = 1;
 
-            _logger.Info ("Started Processing App Urls");
+            // Buffer of Messages to be recorder
+            List<AppleStoreAppModel> recordsBuffer  = new List<AppleStoreAppModel> ();
+            List<Message>            messagesBuffer = new List<Message> ();
+
+            // Insert Batch Size
+            int batchSize = 1000;
+
+            _logger.Info ("Started Recording App Data");
 
             do
             {
@@ -102,11 +112,32 @@ namespace AppStoreRecorder
                             // Deserializing message
                             var appData = AppleStoreAppModel.FromJson (appDataMessage.Body);
 
-                            // Checking for duplicates
-                            if (!mongoDB.IsAppOnDatabase<AppleStoreAppModel> (appData.url))
+                            // Dumping "Url" to "_id"
+                            appData._id = appData.url;
+                                                        
+                            // Adding it to the buffer of records to be recorded
+                            recordsBuffer.Add (appData);
+
+                            // Adding message to the buffer of messages to be deleted
+                            messagesBuffer.Add (appDataMessage);
+
+                            // Is it time to batch insert ?
+                            if ((recordsBuffer.Count % batchSize) == 0)
                             {
-                                // Recording App Data
-                                mongoDB.Insert<AppleStoreAppModel> (appData);
+                                // Batch Insertion
+                                mongoDB.BatchInsert<AppleStoreAppModel> (recordsBuffer);
+
+                                // Logging Feedback
+                                _logger.Info ("\tApps Recorded : " + recordsBuffer.Count);
+
+                                // Deleting Messages
+                                messagesBuffer.ForEach ( (msg) => appsDataQueue.DeleteMessage (msg));
+
+                                _logger.Info ("\tMessages Deleted: " + messagesBuffer.Count);
+
+                                // Clearing Buffers
+                                recordsBuffer.Clear ();
+                                messagesBuffer.Clear ();
                             }
                         }
                         catch (Exception ex)

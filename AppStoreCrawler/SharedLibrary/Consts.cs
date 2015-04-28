@@ -26,10 +26,10 @@ namespace SharedLibrary
         public const string XPATH_TITLE            = "//div[@id='title']/div[@class='left']/h1";
         public const string XPATH_DEVELOPER_NAME   = "//div[@id='title']/div[@class='left']/h2";
         public const string XPATH_DEVELOPER_URL    = "//a[@class='view-more']";
-        public const string XPATH_APP_PRICE        = "//ul[@class='list']/li/div[@class='price']";
+        public const string XPATH_APP_PRICE        = "//div[@class='price' and @itemprop='price']";
         public const string XPATH_CATEGORY         = "//ul[@class='list']/li[@class='genre']/a";
         public const string XPATH_UPDATE_DATE      = "//ul[@class='list']/li[@class='release-date']";
-        public const string XPATH_DESCRIPTION      = "//p[@class='truncate']";
+        public const string XPATH_DESCRIPTION      = "//p[@itemprop='description']";
         public const string XPATH_VERSION          = "//span[contains(text(),'Version')]";
         public const string XPATH_APP_SIZE         = "//span[contains(text(),'Size')]";
         public const string XPATH_THUMBNAIL        = "//div[@id='left-stack']//div//a//div[@class='artwork']/img";
@@ -50,8 +50,8 @@ namespace SharedLibrary
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "MobileAppsData";
-        public static readonly string MONGO_COLLECTION       = "AppleStore_2014_12";
-        public static readonly string MONGO_AUTH_DB          = "AppleStore";
+        public static readonly string MONGO_COLLECTION       = "AppleStore_2015_04";
+        public static readonly string MONGO_AUTH_DB          = "MobileAppsData";
         public static readonly int    MONGO_TIMEOUT          = 10000;
     }
 }

@@ -2,6 +2,7 @@
 using SharedLibrary;
 using SharedLibrary.AWS;
 using SharedLibrary.ConfigurationReader;
+using SharedLibrary.Log;
 using SharedLibrary.Parsing;
 using SharedLibrary.Proxies;
 using System;
@@ -36,9 +37,12 @@ namespace AppStoreCategoriesWorker
             // Creating Needed Instances
             RequestsHandler httpClient = new RequestsHandler ();
             AppStoreParser  parser     = new AppStoreParser ();
-            _logger                    = LogManager.GetCurrentClassLogger ();
 
             // Loading Configuration
+            LogSetup.InitializeLog ("Apple_Store_Categories_Worker.log", "info");
+            _logger = LogManager.GetCurrentClassLogger ();
+
+            // Loading Config
             _logger.Info ("Loading Configurations from App.config");
             LoadConfiguration ();
 
@@ -119,7 +123,7 @@ namespace AppStoreCategoriesWorker
                         fallbackWaitTime++;
 
                         // Sleeping before next try
-                        Console.WriteLine ("Fallback (seconds) => " + waitTime);
+                        _logger.Info ("Fallback (seconds) => " + waitTime);
                         Thread.Sleep (waitTime);
                         continue;
                     }

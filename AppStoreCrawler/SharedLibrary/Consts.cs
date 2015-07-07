@@ -39,18 +39,21 @@ namespace SharedLibrary
         public const string XPATH_RATING_REASONS   = "//ul[@class='list app-rating-reasons']/li";
         public const string XPATH_RATINGS          = "//div[@class='extra-list customer-ratings']";
         public const string XPATH_IN_APP_PURCHASES = "//div[@class='extra-list in-app-purchases']";
+        public const string XPATH_WEBSITE_URL      = "//div[@class='app-links']/a[contains(text(),'Site')]";
+        public const string XPATH_SUPPORT_URL      = "//div[@class='app-links']/a[contains(text(),'Support')]";
+        public const string XPATH_LICENSE_URL      = "//div[@class='app-links']/a[contains(text(),'Agreement')]";
 
         // Culture Info and Globalization
         public const string CURRENT_CULTURE_INFO = "en-US";
         public const string DATE_FORMAT          = "MMM dd, yyyy";
 
         // MongoDB - Remote Server
-        public static readonly string MONGO_SERVER           = "mobiledata.bigdatacorp.com.br"; 
+        public static readonly string MONGO_SERVER           = "sitemondb.bigdatacorp.com.br"; 
         public static readonly string MONGO_PORT             = "21766";
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "MobileAppsData";
-        public static readonly string MONGO_COLLECTION       = "AppleStore_2015_04";
+        public static readonly string MONGO_COLLECTION       = "AppleStore_2015_05";
         public static readonly string MONGO_AUTH_DB          = "MobileAppsData";
         public static readonly int    MONGO_TIMEOUT          = 10000;
     }

@@ -138,6 +138,9 @@ namespace SharedLibrary.Parsing
             parsedApp.ageRatingReasons  = GetRatingReasons (map);
             parsedApp.rating            = GetRatings (map);
             parsedApp.topInAppPurchases = GetInAppPurchases (map);
+            parsedApp.developerWebsite  = GetDeveloperWebsiteUrl (map);
+            parsedApp.supportWebsite    = GetSupportWebsite (map);
+            parsedApp.licenseAgreement  = GetLicenseAgreement (map);
 
 
             return parsedApp;
@@ -391,6 +394,44 @@ namespace SharedLibrary.Parsing
             }
 
             return inAppPurchases.ToArray ();
+        }
+
+        private string GetDeveloperWebsiteUrl (HtmlDocument map)
+        {
+            try
+            {
+                // Reaching Website Url
+                return map.DocumentNode.SelectSingleNode (Consts.XPATH_WEBSITE_URL).Attributes["href"].Value;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private string GetSupportWebsite (HtmlDocument map)
+        {
+            try
+            {
+                // Reaching Support Url
+                return map.DocumentNode.SelectSingleNode (Consts.XPATH_SUPPORT_URL).Attributes["href"].Value;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private string GetLicenseAgreement (HtmlDocument map)
+        {
+            try
+            {
+                return map.DocumentNode.SelectSingleNode (Consts.XPATH_LICENSE_URL).Attributes["href"].Value;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private string GetNodeValue (HtmlDocument map, string xPath)

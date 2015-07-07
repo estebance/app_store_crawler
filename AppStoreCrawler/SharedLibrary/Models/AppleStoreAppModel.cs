@@ -32,6 +32,9 @@ namespace SharedLibrary.Models
         public Rating   rating                   { get; set; }
         [BsonIgnoreIfNull]
         public InAppPurchase[] topInAppPurchases { get; set; }
+        public string          developerWebsite  { get; set; }
+        public string          supportWebsite    { get; set; }
+        public string          licenseAgreement  { get; set; }
 
         public string ToJson ()
         {

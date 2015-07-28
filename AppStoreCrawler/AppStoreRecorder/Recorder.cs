@@ -1,7 +1,8 @@
 ﻿using Amazon.SQS.Model;
 using NLog;
 using SharedLibrary;
-using SharedLibrary.AWS;
+//using SharedLibrary.AWS;
+using SharedLibrary.AzureStorage;
 using SharedLibrary.ConfigurationReader;
 using SharedLibrary.Log;
 using SharedLibrary.Models;
@@ -22,8 +23,9 @@ namespace AppStoreRecorder
 
         // Configuration Values
         private static string _appsDataQueueName;
-        private static string _awsKey;
-        private static string _awsKeySecret;
+        //private static string _awsKey;
+        //private static string _awsKeySecret;
+        private static string _azureQueueconn;
         private static int    _maxRetries;
         private static int    _maxMessagesPerDequeue;
 
@@ -42,7 +44,7 @@ namespace AppStoreRecorder
 
             // Initializing Queue
             _logger.Info ("Initializing Queue");
-            AWSSQSHelper appsDataQueue = new AWSSQSHelper (_appsDataQueueName, _maxMessagesPerDequeue, _awsKey, _awsKeySecret);
+            AzureSQSHelper appsDataQueue = new AzureSQSHelper (_appsDataQueueName, _maxMessagesPerDequeue, _azureQueueconn);
 
             // Creating MongoDB Instance
             _logger.Info ("Loading MongoDB / Creating Instances");
@@ -165,8 +167,9 @@ namespace AppStoreRecorder
             _maxRetries             = ConfigurationReader.LoadConfigurationSetting<int>    ("MaxRetries"           , 0);
             _maxMessagesPerDequeue  = ConfigurationReader.LoadConfigurationSetting<int>    ("MaxMessagesPerDequeue", 10);
             _appsDataQueueName      = ConfigurationReader.LoadConfigurationSetting<String> ("AWSAppsDataQueue"     , String.Empty);
-            _awsKey                 = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKey"               , String.Empty);
-            _awsKeySecret           = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKeySecret"         , String.Empty);
+            //_awsKey                 = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKey"               , String.Empty);
+            //_awsKeySecret           = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKeySecret"         , String.Empty);
+            _azureQueueconn = ConfigurationReader.LoadConfigurationSetting<String>("StorageConnectionString", String.Empty);
         }
     }
 }

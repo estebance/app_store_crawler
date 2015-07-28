@@ -1,6 +1,7 @@
 ﻿using NLog;
 using SharedLibrary;
-using SharedLibrary.AWS;
+//using SharedLibrary.AWS;
+using SharedLibrary.AzureStorage;
 using SharedLibrary.ConfigurationReader;
 using SharedLibrary.Log;
 using SharedLibrary.Parsing;
@@ -24,8 +25,9 @@ namespace AppStoreCharactersWorker
         // Configuration Values
         private static string _characterUrlsQueueName;
         private static string _numericUrlsQueueName;
-        private static string _awsKey;
-        private static string _awsKeySecret;
+        //private static string _awsKey;
+        //private static string _awsKeySecret;
+        private static string _azureQueueconn;
         private static int    _maxRetries;
         private static int    _maxMessagesPerDequeue;
 
@@ -82,8 +84,8 @@ namespace AppStoreCharactersWorker
 
             // AWS Queue Handler
             _logger.Info ("Initializing Queues");
-            AWSSQSHelper charactersUrlQueue = new AWSSQSHelper (_characterUrlsQueueName, _maxMessagesPerDequeue, _awsKey, _awsKeySecret);
-            AWSSQSHelper numericUrlQueue    = new AWSSQSHelper (_numericUrlsQueueName  , _maxMessagesPerDequeue, _awsKey, _awsKeySecret);
+            AzureSQSHelper charactersUrlQueue = new AzureSQSHelper (_characterUrlsQueueName, _maxMessagesPerDequeue, _azureQueueconn);
+            AzureSQSHelper numericUrlQueue    = new AzureSQSHelper(_numericUrlsQueueName  , _maxMessagesPerDequeue, _azureQueueconn);
 
             // Setting Error Flag to No Error ( 0 )
             System.Environment.ExitCode = 0;
@@ -250,8 +252,9 @@ namespace AppStoreCharactersWorker
             _maxMessagesPerDequeue  = ConfigurationReader.LoadConfigurationSetting<int>    ("MaxMessagesPerDequeue", 10);
             _characterUrlsQueueName = ConfigurationReader.LoadConfigurationSetting<String> ("AWSCharacterUrlsQueue", String.Empty);
             _numericUrlsQueueName   = ConfigurationReader.LoadConfigurationSetting<String> ("AWSNumericUrlsQueue"  , String.Empty);
-            _awsKey                 = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKey"               , String.Empty);
-            _awsKeySecret           = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKeySecret"         , String.Empty);
+            //_awsKey                 = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKey"               , String.Empty);
+            //_awsKeySecret           = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKeySecret"         , String.Empty);
+            _azureQueueconn = ConfigurationReader.LoadConfigurationSetting<String>("StorageConnectionString", String.Empty);
         }
 
     }

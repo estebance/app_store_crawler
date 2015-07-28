@@ -1,7 +1,8 @@
 ﻿using SharedLibrary;
 using SharedLibrary.Parsing;
 using System;
-using SharedLibrary.AWS;
+//using SharedLibrary.AWS;
+using SharedLibrary.AzureStorage;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,8 +24,9 @@ namespace AppStoreCrawler
 
         // Configuration Values
         private static string _categoriesQueueName;
-        private static string _awsKey;
-        private static string _awsKeySecret;
+        //private static string _awsKey;
+        //private static string _awsKeySecret;
+        private static string _azureQueueconn;
 
         static void Main (string[] args)
         {
@@ -79,7 +81,7 @@ namespace AppStoreCrawler
 
             // AWS Queue Handler
             _logger.Info ("Initializing Queues");
-            AWSSQSHelper sqsWrapper = new AWSSQSHelper (_categoriesQueueName, 10, _awsKey, _awsKeySecret);
+            AzureSQSHelper sqsWrapper = new AzureSQSHelper (_categoriesQueueName, 10, _azureQueueconn);
 
             // Step 1 - Trying to obtain the root page html (source of all the apps)
             var rootPageResponse = httpClient.GetRootPage (shouldUseProxies);
@@ -107,8 +109,9 @@ namespace AppStoreCrawler
         private static void LoadConfiguration ()
         {
             _categoriesQueueName = ConfigurationReader.LoadConfigurationSetting<String> ("AWSCategoriesQueue", String.Empty);
-            _awsKey              = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKey"            , String.Empty);
-            _awsKeySecret        = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKeySecret"      , String.Empty);
+            //_awsKey                 = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKey"               , String.Empty);
+            //_awsKeySecret           = ConfigurationReader.LoadConfigurationSetting<String> ("AWSKeySecret"         , String.Empty);
+            _azureQueueconn = ConfigurationReader.LoadConfigurationSetting<String>("StorageConnectionString", String.Empty);
         }
     }
 }

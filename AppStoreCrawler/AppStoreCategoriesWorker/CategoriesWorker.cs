@@ -102,7 +102,7 @@ namespace AppStoreCategoriesWorker
                     // Dequeueing messages from the Queue
                     if (!categoriesUrlQueue.DeQueueMessages())
                     {
-                        Thread.Sleep (_hiccupTime); // Hiccup                   
+                        Thread.Sleep (_hiccupTime); // Hiccup
                         continue;
                     }
 

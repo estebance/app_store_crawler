@@ -104,6 +104,8 @@ namespace AppStoreCrawler
             }
 
             _logger.Info ("End of Bootstrapping phase");
+
+            //Console.ReadLine();
         }
 
         private static void LoadConfiguration ()

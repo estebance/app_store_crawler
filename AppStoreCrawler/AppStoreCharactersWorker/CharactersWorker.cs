@@ -137,7 +137,7 @@ namespace AppStoreCharactersWorker
                     foreach (var characterUrl in charactersUrlQueue.GetDequeuedMessages ())
                     {
                         // Console Feedback
-                        _logger.Info ("Started Parsing Url : " + characterUrl.Body);
+                        _logger.Info ("Started Parsing Url : " + characterUrl.AsString);
 
                         try
                         {
@@ -149,7 +149,7 @@ namespace AppStoreCharactersWorker
                             do
                             {
                                 // Executing Http Request for the Category Url
-                                htmlResponse = httpClient.Get (characterUrl.Body, shouldUseProxies);
+                                htmlResponse = httpClient.Get (characterUrl.AsString, shouldUseProxies);
 
                                 if (String.IsNullOrEmpty (htmlResponse))
                                 {

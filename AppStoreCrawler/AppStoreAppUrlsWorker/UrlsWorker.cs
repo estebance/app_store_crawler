@@ -149,7 +149,7 @@ namespace AppStoreAppUrlsWorker
                             do
                             {
                                 // Executing Http Request for the Category Url
-                                htmlResponse = httpClient.Get (appUrl.Body, shouldUseProxies);
+                                htmlResponse = httpClient.Get (appUrl.AsString, shouldUseProxies);
 
                                 if (String.IsNullOrEmpty (htmlResponse))
                                 {
@@ -171,11 +171,11 @@ namespace AppStoreAppUrlsWorker
                             }
 
                             // Feedback
-                            _logger.Info ("Current page " + appUrl.Body, "Parsing App Data");
+                            _logger.Info ("Current page " + appUrl.AsString, "Parsing App Data");
 
                             // Parsing Data out of the Html Page
                             AppleStoreAppModel parsedApp = parser.ParseAppPage (htmlResponse);
-                            parsedApp.url                = appUrl.Body;
+                            parsedApp.url                = appUrl.AsString;
 
                             // Enqueueing App Data
                             appsDataQueue.EnqueueMessage (parsedApp.ToJson ());

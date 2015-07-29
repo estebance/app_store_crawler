@@ -146,7 +146,7 @@ namespace AppStoreNumericsWorker
                             do
                             {
                                 // Executing Http Request for the Category Url
-                                htmlResponse = httpClient.Get (numericUrl.Body, shouldUseProxies);
+                                htmlResponse = httpClient.Get (numericUrl.AsString, shouldUseProxies);
 
                                 if (String.IsNullOrEmpty (htmlResponse))
                                 {
@@ -165,7 +165,7 @@ namespace AppStoreNumericsWorker
                             }
 
                             // Feedback
-                            _logger.Info ("Current page " + numericUrl.Body);
+                            _logger.Info ("Current page " + numericUrl.AsString);
 
                             foreach (var parsedAppUrl in parser.ParseAppsUrls (htmlResponse))
                             {

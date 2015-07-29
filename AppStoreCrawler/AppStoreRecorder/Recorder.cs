@@ -1,4 +1,4 @@
-﻿using Amazon.SQS.Model;
+﻿//using Amazon.SQS.Model;
 using NLog;
 using SharedLibrary;
 //using SharedLibrary.AWS;
@@ -13,6 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace AppStoreRecorder
 {
@@ -61,7 +65,7 @@ namespace AppStoreRecorder
 
             // Buffer of Messages to be recorder
             List<AppleStoreAppModel> recordsBuffer  = new List<AppleStoreAppModel> ();
-            List<Message>            messagesBuffer = new List<Message> ();
+            List<CloudQueueMessage>            messagesBuffer = new List<CloudQueueMessage> ();
 
             // Insert Batch Size
             int batchSize = 1000;
@@ -112,7 +116,7 @@ namespace AppStoreRecorder
                         try
                         {
                             // Deserializing message
-                            var appData = AppleStoreAppModel.FromJson (appDataMessage.Body);
+                            var appData = AppleStoreAppModel.FromJson (appDataMessage.AsString);
 
                             // Dumping "Url" to "_id"
                             appData._id = appData.url;

@@ -52,9 +52,9 @@ namespace SharedLibrary.AzureStorage
         /// <summary>
         /// Class constructor
         /// </summary>
-        public AzureSQSHelper(string queuename, int maxnumberofmessages, String AzureStorageAccount = "", String AzureSQSSecretKey = "")
+        public AzureSQSHelper(string queuename, int maxnumberofmessages, String azureSQSConnectionString)
         {
-            OpenQueue(queuename, maxnumberofmessages, AzureStorageAccount, AzureSQSSecretKey);
+            OpenQueue(queuename, maxnumberofmessages, azureSQSConnectionString);
         }
 
         /// <summary>

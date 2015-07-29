@@ -137,7 +137,7 @@ namespace AppStoreCategoriesWorker
                     foreach (var categoryUrl in categoriesUrlQueue.GetDequeuedMessages())
                     {
                         // Console Feedback
-                        _logger.Info ("Started Parsing Category : " + categoryUrl.Body);
+                        _logger.Info ("Started Parsing Category : " + categoryUrl.AsString);
 
                         try
                         {
@@ -149,7 +149,7 @@ namespace AppStoreCategoriesWorker
                             do
                             {
                                 // Executing Http Request for the Category Url
-                                htmlResponse = httpClient.Get (categoryUrl.Body, shouldUseProxies);
+                                htmlResponse = httpClient.Get (categoryUrl.AsString, shouldUseProxies);
 
                                 if (String.IsNullOrEmpty (htmlResponse))
                                 {

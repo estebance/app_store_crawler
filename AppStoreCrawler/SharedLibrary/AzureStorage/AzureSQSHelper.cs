@@ -87,7 +87,10 @@ namespace SharedLibrary.AzureStorage
                     CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 
                     // Retrieve a reference to a queue
-                    CloudQueue queue = queueClient.GetQueueReference(queuename);
+                    queue = queueClient.GetQueueReference(queuename);
+                    Console.WriteLine(queue.Name);
+                    Console.WriteLine(queue.Uri);
+                    Console.WriteLine(queue.ServiceClient.ToString());
 
                     // Create the queue if it doesn't already exist
                     queue.CreateIfNotExists();

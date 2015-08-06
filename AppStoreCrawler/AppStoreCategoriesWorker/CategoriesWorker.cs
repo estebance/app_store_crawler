@@ -133,6 +133,10 @@ namespace AppStoreCategoriesWorker
                     // Reseting fallback time
                     fallbackWaitTime = 1;
 
+                    // thread sleep for some time
+                    int stopTime = 10; 
+                    Thread.Sleep (stopTime);
+
                     // Iterating over dequeued Messages
                     foreach (var categoryUrl in categoriesUrlQueue.GetDequeuedMessages())
                     {

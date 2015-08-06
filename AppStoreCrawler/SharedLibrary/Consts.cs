@@ -13,8 +13,8 @@ namespace SharedLibrary
 
         // Http Headers
         public const string USER_AGENT = "Crawling for a college work - more at https://github.com/MarcelloLins/AppStoreCrawler";
-        
-        // XPaths - Root Page 
+
+        // XPaths - Root Page
         public const string XPATH_CATEGORIES_URLS = "//a[contains(@class,'top-level-genre')]";
         public const string XPATH_CHARACTERS_URLS = "//div[@id='selectedgenre']/ul[@class='list alpha']/li/a";
         public const string XPATH_NUMERIC_URLS    = "//ul[@class='list paginate']/li/a";
@@ -48,10 +48,10 @@ namespace SharedLibrary
         public const string DATE_FORMAT          = "MMM dd, yyyy";
 
         // MongoDB - Remote Server
-        public static readonly string MONGO_SERVER           = "sitemondb.bigdatacorp.com.br"; 
-        public static readonly string MONGO_PORT             = "21766";
-        public static readonly string MONGO_USER             = "GitHubCrawlerUser";
-        public static readonly string MONGO_PASS             = "g22LrJvULU5B";
+        public static readonly string MONGO_SERVER           = "appstorecrawl.cloudapp.net";
+        public static readonly string MONGO_PORT             = "27017";
+        public static readonly string MONGO_USER             = "";
+        public static readonly string MONGO_PASS             = "";
         public static readonly string MONGO_DATABASE         = "MobileAppsData";
         public static readonly string MONGO_COLLECTION       = "AppleStore_2015_05";
         public static readonly string MONGO_AUTH_DB          = "MobileAppsData";

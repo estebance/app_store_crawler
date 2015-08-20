@@ -51,6 +51,10 @@ namespace AppStoreNumericsWorker
             // Control Variable (Bool - Should the process use proxies? )
             bool shouldUseProxies = false;
 
+            // include proxies
+            args = new string[] {"/home/appstore/code/proxies/proxy"};
+            logger.Info(args[0]);
+
             // Checking for the need to use proxies
             if (args != null && args.Length == 1)
             {
@@ -102,7 +106,7 @@ namespace AppStoreNumericsWorker
                     // Dequeueing messages from the Queue
                     if (!numericUrlQueue.DeQueueMessages ())
                     {
-                        Thread.Sleep (_hiccupTime); // Hiccup                   
+                        Thread.Sleep (_hiccupTime); // Hiccup
                         continue;
                     }
 

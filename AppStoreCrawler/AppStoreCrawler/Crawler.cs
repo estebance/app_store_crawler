@@ -37,7 +37,7 @@ namespace AppStoreCrawler
             // Setting Up Log
             LogSetup.InitializeLog ("Apple_Store_Crawler.log", "info");
             _logger = LogManager.GetCurrentClassLogger ();
-            
+
             // Starting Flow
             _logger.Info ("Worker Started");
 
@@ -53,6 +53,10 @@ namespace AppStoreCrawler
             {
                 // Setting flag to true
                 shouldUseProxies = true;
+
+                // include proxies
+                args = new string[] {"/home/appstore/code/proxies/proxy"};
+                logger.Info(args[0]);
 
                 // Loading proxies from .txt received as argument
                 String fPath = args[0];

@@ -57,6 +57,10 @@ namespace AppStoreCharactersWorker
                 // Setting flag to true
                 shouldUseProxies = true;
 
+                // include proxies
+                args = new string[] {"/home/appstore/code/proxies/proxy"};
+                logger.Info(args[0]);
+
                 // Loading proxies from .txt received as argument
                 String fPath = args[0];
 
@@ -102,7 +106,7 @@ namespace AppStoreCharactersWorker
                     // Dequeueing messages from the Queue
                     if (!charactersUrlQueue.DeQueueMessages())
                     {
-                        Thread.Sleep (_hiccupTime); // Hiccup                   
+                        Thread.Sleep (_hiccupTime); // Hiccup
                         continue;
                     }
 

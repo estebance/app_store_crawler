@@ -52,6 +52,10 @@ namespace AppStoreAppUrlsWorker
             // Control Variable (Bool - Should the process use proxies? )
             bool shouldUseProxies = false;
 
+            // include proxies
+            args = new string[] {"/home/appstore/code/proxies/proxy"};
+            logger.Info(args[0]);
+
             // Checking for the need to use proxies
             if (args != null && args.Length == 1)
             {
@@ -87,7 +91,7 @@ namespace AppStoreAppUrlsWorker
             _logger.Info ("Initializing Queues");
             AzureSQSHelper appsUrlQueue  = new AzureSQSHelper(_appUrlsQueueName , _maxMessagesPerDequeue, _azureQueueconn);
             AzureSQSHelper appsDataQueue = new AzureSQSHelper(_appsDataQueueName, _maxMessagesPerDequeue, _azureQueueconn);
-            
+
             // Setting Error Flag to No Error ( 0 )
             System.Environment.ExitCode = 0;
 
@@ -103,7 +107,7 @@ namespace AppStoreAppUrlsWorker
                     // Dequeueing messages from the Queue
                     if (!appsUrlQueue.DeQueueMessages ())
                     {
-                        Thread.Sleep (_hiccupTime); // Hiccup                   
+                        Thread.Sleep (_hiccupTime); // Hiccup
                         continue;
                     }
 
@@ -158,7 +162,7 @@ namespace AppStoreAppUrlsWorker
                                     int sleepTime = retries * _hiccupTime <= 30000 ? retries * _hiccupTime : 30000;
 
                                     _logger.Info ("Retrying Request for App Page [ " + sleepTime / 1000 + " ]");
-                                    
+
                                     Thread.Sleep (sleepTime);
                                 }
 

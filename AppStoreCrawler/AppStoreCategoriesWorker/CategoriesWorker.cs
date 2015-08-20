@@ -51,6 +51,10 @@ namespace AppStoreCategoriesWorker
             // Control Variable (Bool - Should the process use proxies? )
             bool shouldUseProxies = false;
 
+            // include proxies
+            args = new string[] {"/home/appstore/code/proxies/proxy"};
+            logger.Info(args[0]);
+
             // Checking for the need to use proxies
             if (args != null && args.Length == 1)
             {
@@ -134,7 +138,7 @@ namespace AppStoreCategoriesWorker
                     fallbackWaitTime = 1;
 
                     // thread sleep for some time
-                    int stopTime = 10; 
+                    int stopTime = 10;
                     Thread.Sleep (stopTime);
 
                     // Iterating over dequeued Messages

@@ -56,7 +56,7 @@ namespace AppStoreCrawler
 
                 // include proxies
                 args = new string[] {"/home/appstore/code/proxies/proxy"};
-                logger.Info(args[0]);
+                //logger.Info(args[0]);
 
                 // Loading proxies from .txt received as argument
                 String fPath = args[0];

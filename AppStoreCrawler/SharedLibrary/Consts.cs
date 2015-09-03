@@ -30,7 +30,7 @@ namespace SharedLibrary
         public const string XPATH_CATEGORY         = "//ul[@class='list']/li[@class='genre']/a";
         public const string XPATH_UPDATE_DATE      = "//ul[@class='list']/li[@class='release-date']";
         public const string XPATH_DESCRIPTION      = "//p[@itemprop='description']";
-        public const string XPATH_VERSION          = "//span[contains(text(),'Version')]";
+        public const string XPATH_VERSION          = "//*/ul/li/span[contains(text(),'Version’)]";
         public const string XPATH_APP_SIZE         = "//span[contains(text(),'Size')]";
         public const string XPATH_THUMBNAIL        = "//div[@id='left-stack']//div//a//div[@class='artwork']/img";
         public const string XPATH_LANGUAGES        = "//ul[@class='list']/li[@class='language']";

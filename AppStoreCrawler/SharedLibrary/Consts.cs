@@ -26,7 +26,7 @@ namespace SharedLibrary
         public const string XPATH_TITLE            = "//div[@id='title']/div[@class='left']/h1";
         public const string XPATH_DEVELOPER_NAME   = "//div[@id='title']/div[@class='left']/h2";
         public const string XPATH_DEVELOPER_URL    = "//a[@class='view-more']";
-        public const string XPATH_APP_PRICE        = "//div[@class='price' and @itemprop='price']";
+        public const string XPATH_APP_PRICE        = "//*/ul/li/span/div[@class='price' and @itemprop='price’]";
         public const string XPATH_CATEGORY         = "//ul[@class='list']/li[@class='genre']/a";
         public const string XPATH_UPDATE_DATE      = "//ul[@class='list']/li[@class='release-date']";
         public const string XPATH_DESCRIPTION      = "//p[@itemprop='description']";

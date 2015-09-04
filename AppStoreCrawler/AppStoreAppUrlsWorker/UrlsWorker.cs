@@ -145,6 +145,8 @@ namespace AppStoreAppUrlsWorker
 
                         _logger.Info("We have this page" + appUrl.AsString);
 
+                        if((appUrl.AsString != "https://www.icloud.com") && (appUrl.AsString != "https://appleid.apple.com/us/") && (appUrl.AsString !="http://investor.apple.com")){
+
                         try
                         {
                             // Retries Counter
@@ -205,6 +207,7 @@ namespace AppStoreAppUrlsWorker
                                 appsUrlQueue.DeleteMessage (appUrl);
                             }
                         }
+                      }
                     }
                 }
                 catch (Exception ex)

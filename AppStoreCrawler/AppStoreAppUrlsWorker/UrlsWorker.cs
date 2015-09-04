@@ -143,6 +143,8 @@ namespace AppStoreAppUrlsWorker
                     {
                         bool processingWorked = true;
 
+                        _logger.Info("We have this page" + appUrl.AsString);
+
                         try
                         {
                             // Retries Counter

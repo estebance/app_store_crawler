@@ -53,7 +53,7 @@ namespace AppStoreAppUrlsWorker
             bool shouldUseProxies = false;
 
             // include proxies
-            args = new string[] {"/home/appstore/code/proxies/proxy"};
+            //args = new string[] {"/home/appstore/code/crawlerverificator/AppleProxyList/newproxy.txt"};
             //logger.Info(args[0]);
 
             // Checking for the need to use proxies

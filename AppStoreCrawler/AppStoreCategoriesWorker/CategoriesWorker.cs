@@ -52,7 +52,7 @@ namespace AppStoreCategoriesWorker
             bool shouldUseProxies = false;
 
             // include proxies
-            args = new string[] {"/home/appstore/code/proxies/proxy"};
+            //args = new string[] {"/home/appstore/code/proxies/proxy"};
             //logger.Info(args[0]);
 
             // Checking for the need to use proxies

@@ -58,7 +58,7 @@ namespace AppStoreCharactersWorker
                 shouldUseProxies = true;
 
                 // include proxies
-                args = new string[] {"/home/appstore/code/proxies/proxy"};
+                // args = new string[] {"/home/appstore/code/proxies/proxy"};
                 //logger.Info(args[0]);
 
                 // Loading proxies from .txt received as argument

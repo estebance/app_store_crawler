@@ -20,8 +20,8 @@ namespace SharedLibrary
         public const string XPATH_NUMERIC_URLS    = "//ul[@class='list paginate']/li/a";
         public const string XPATH_NEXT_PAGE       = "//ul[@class='list paginate'][1]/li/a[@class='paginate-more']";
         public const string XPATH_LAST_PAGE       = "//ul[@class='list paginate'][1]/li/a[not(@class)]";
-        public const string XPATH_APPS_URLS       = "//div[contains(@class,'column') and not(@id)]/ul/li/a";
-
+        //public const string XPATH_APPS_URLS       = "//div[contains(@class,'column') and not(@id)]/ul/li/a";
+        public const string XPATH_APPS_URLS       = "//div[contains(@class,'column') and not(@id)]/ul/li/a[not(contains(@class, 'ac-gf-directory-column-section-link'))]";
         // XPaths - App Page
         public const string XPATH_TITLE            = "//div[@id='title']/div[@class='left']/h1";
         public const string XPATH_DEVELOPER_NAME   = "//div[@id='title']/div[@class='left']/h2";

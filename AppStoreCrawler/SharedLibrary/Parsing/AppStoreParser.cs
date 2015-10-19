@@ -141,9 +141,51 @@ namespace SharedLibrary.Parsing
             parsedApp.developerWebsite  = GetDeveloperWebsiteUrl (map);
             parsedApp.supportWebsite    = GetSupportWebsite (map);
             parsedApp.licenseAgreement  = GetLicenseAgreement (map);
+            parsedApp.relatedApps       = GetRelatedApps(map);
+            parsedApp.moreByDev         = GetMoreByDev(map);
+            parsedApp.screenshots       = GetScreenshots(map);
 
 
             return parsedApp;
+        }
+
+        private string[] GetScreenshots(HtmlDocument map)
+        {
+            HtmlNodeCollection nodesCollection = map.DocumentNode.SelectNodes(Consts.XPATH_MORE_BY_DEV);
+            // Sanity Check
+            if (nodesCollection != null)
+            {
+                // Dumping "Src" attribute of each node to an array
+                return nodesCollection.Select(t => t.Attributes["src"].Value).Distinct().ToArray();
+            }
+
+            return null;
+        }
+
+        private string[] GetMoreByDev(HtmlDocument map)
+        {
+            HtmlNodeCollection nodesCollection = map.DocumentNode.SelectNodes(Consts.XPATH_MORE_BY_DEV);
+            // Sanity Check
+            if (nodesCollection != null)
+            {
+                // Dumping "Src" attribute of each node to an array
+                return nodesCollection.Select(t => t.Attributes["href"].Value).Distinct().ToArray();
+            }
+
+            return null;
+        }
+
+        private string[] GetRelatedApps(HtmlDocument map)
+        {
+            HtmlNodeCollection nodesCollection = map.DocumentNode.SelectNodes(Consts.XPATH_RELATED_APPS);
+            // Sanity Check
+            if (nodesCollection != null)
+            {
+                // Dumping "Src" attribute of each node to an array
+                return nodesCollection.Select(t => t.Attributes["href"].Value).Distinct().ToArray();
+            }
+
+            return null;
         }
 
         private string GetAppDeveloperName (HtmlDocument map)

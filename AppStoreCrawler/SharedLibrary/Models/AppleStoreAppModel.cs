@@ -35,6 +35,9 @@ namespace SharedLibrary.Models
         public string          developerWebsite  { get; set; }
         public string          supportWebsite    { get; set; }
         public string          licenseAgreement  { get; set; }
+        public string[]        relatedApps       { get; set; }
+        public string[]        moreByDev         { get; set; }
+        public string[]        screenshots       { get; set; }
 
         public string ToJson ()
         {

@@ -182,7 +182,7 @@ namespace AppStoreAppUrlsWorker
                             _logger.Info ("Current page " + appUrl.AsString, "Parsing App Data");
 
                             // Parsing Data out of the Html Page
-                            AppleStoreAppModel parsedApp = parser.ParseAppPage (htmlResponse);
+                             AppleStoreAppModel parsedApp = parser.ParseAppPage (htmlResponse);
                             parsedApp.url                = appUrl.AsString;
 
                             // Enqueueing App Data

@@ -44,7 +44,7 @@ namespace SharedLibrary
         public const string XPATH_LICENSE_URL      = "//div[@class='app-links']/a[contains(text(),'Agreement')]";
         public const string XPATH_RELATED_APPS     = "//div[@class='swoosh lockup-container application large']/div[@class='content']/div/div/a";
         public const string XPATH_MORE_BY_DEV      = "//div[@class='extra-list more-by']/ul[@class='list']/li/div/a";
-        public const string XPATH_SCREENSHOTS      = "//div[@class='image-wrapper' ]//img[contains(@itemprop,'screenshot')]";
+        public const string XPATH_SCREENSHOTS      = "//img[@itemprop='screenshot']";
 
         // Culture Info and Globalization
         public const string CURRENT_CULTURE_INFO = "en-US";

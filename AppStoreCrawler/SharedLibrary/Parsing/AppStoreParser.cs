@@ -141,9 +141,9 @@ namespace SharedLibrary.Parsing
             parsedApp.developerWebsite  = GetDeveloperWebsiteUrl (map);
             parsedApp.supportWebsite    = GetSupportWebsite (map);
             parsedApp.licenseAgreement  = GetLicenseAgreement (map);
+            parsedApp.screenshots = GetScreenshots(map);
             parsedApp.relatedApps       = GetRelatedApps(map);
-            parsedApp.moreByDev         = GetMoreByDev(map);
-            parsedApp.screenshots       = GetScreenshots(map);
+            parsedApp.moreByDev         = GetMoreByDev(map);            
 
 
             return parsedApp;
@@ -151,7 +151,7 @@ namespace SharedLibrary.Parsing
 
         private string[] GetScreenshots(HtmlDocument map)
         {
-            HtmlNodeCollection nodesCollection = map.DocumentNode.SelectNodes(Consts.XPATH_MORE_BY_DEV);
+            HtmlNodeCollection nodesCollection = map.DocumentNode.SelectNodes(Consts.XPATH_SCREENSHOTS);
             // Sanity Check
             if (nodesCollection != null)
             {
@@ -482,5 +482,6 @@ namespace SharedLibrary.Parsing
 
             return node == null ? String.Empty : HttpUtility.HtmlDecode (node.InnerText);
         }
+
     }
 }

@@ -47,3 +47,5 @@ There are many questions we have no answer at the moment and we should be able t
 * If you feel like, you can make your own MongoDB Database and change the code Consts to point the output to your own MongoDB Database. No Biggie
 
 **Refer to the Pages section of this wiki for individual information about each aspect of the project.**
+
+# This project was  modified to works with azure.  
